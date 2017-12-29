@@ -1,11 +1,11 @@
 <template>
-  <div @touchstart.once="playAudio">
+  <div class="content" @touchstart.once="playAudio">
     <div class="pu">
+      <img src="../assets/img/favicon.png">
       我最亲爱的<small v-cloak>{{days}}</small>
-      <img src="../assets/img/favicon.png" alt="" width="36">
     </div>
     <!-- Swiper -->
-    <div class="swiper-container">
+    <div class="swiper-container" v-show="isSwiperShown">
       <span class="iconfont icon-start" @click="startSwiper"></span>
       <span class="iconfont icon-pause" @click="stopSwiper"></span>
       <div class="swiper-wrapper">
@@ -15,6 +15,14 @@
           <p class="distance">{{dateDesc.distance}}km</p>
           <img :src="getImgUrl(dateDesc.date)" class="swiper-lazy" width="95%">
         </div>
+      </div>
+    </div>
+    <!--list-->
+    <div class="photo-list" v-show="!isSwiperShown">
+      <div class="photo-item" v-for="dateDesc in dateArr" v-cloak>
+        <p class="desc">{{dateDesc.desc}}<small v-if="dateDesc.tip">{{dateDesc.tip}}</small></p>
+        <p class="date">{{dateDesc.date}}</p>
+        <img :src="getImgUrl(dateDesc.date)">
       </div>
     </div>
     <audio id="my-audio" src="http://owntjivne.bkt.clouddn.com/little-luck.mp3" autoplay="autoplay"></audio>
@@ -35,13 +43,37 @@
     data() {
       return {
         days: parseInt((dateTime - startDayTime) / (24 * 60 * 60 * 1000))+"days",
-        dateArr: dateArr
+        dateArr: dateArr,
+        isSwiperShown: (document.body.clientWidth<1200)
       }
     },
     mounted() {
+      const self = this;
       swiperStart = document.querySelector(".icon-start");
       swiperPause = document.querySelector(".icon-pause");
+      window.onresize = () => {
+        return (() => {
+          self.isSwiperShown = document.body.clientWidth<1200;
+        })()
+      };
       this.swiper();
+    },
+    watch: {
+      isSwiperShown (val) {
+        if (!this.timer) {
+          this.isSwiperShown = val;
+          this.timer = true;
+          let self = this;
+          if(this.isSwiperShown) {
+            this.startSwiper();
+          } else {
+            this.stopSwiper();
+          }
+          setTimeout(function () {
+            self.timer = false
+          }, 400);
+        }
+      }
     },
     methods: {
       getImgUrl: function (date) {
@@ -57,11 +89,13 @@
         });
       },
       startSwiper: function () {
+        console.log("start")
         swiper.startAutoplay();
         swiperStart.style.display="none";
         swiperPause.style.display="block";
       },
       stopSwiper: function () {
+        console.log("stop")
         swiper.stopAutoplay();
         swiperPause.style.display="none";
         swiperStart.style.display="block";
@@ -167,6 +201,51 @@
     display: none;
   }
 
+  .photo-list {
+    padding-top: 20px;
+    margin: 0 0 60px -20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .photo-item {
+    position: relative;
+    width: 360px;
+    height: 360px;
+    margin: 20px 0 0 20px;
+  }
+
+  .photo-item img {
+    width: 360px;
+    height: 360px;
+  }
+
+  .photo-item p.date {
+    position: absolute;
+    background: #29e;
+    color: #fff;
+    padding: 0 6px;
+    border-radius: 0 0 5px 0;
+  }
+
+  .photo-item p.desc {
+    background: rgba(0,0,0,.5);
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    padding: 0 2.5%;
+    width: 95%;
+    height: 32px;
+    line-height: 32px;
+    font-size: 20px;
+  }
+
+  .photo-item p.desc small{
+    color: #e38;
+    font-size: 16px;
+    margin-left: 2%;
+  }
 
   /*动画会引起lazyloading bug*/
   .swiper-slide:after {
@@ -223,4 +302,31 @@
   [v-cloak] {
     display: none;
   }
+
+  @media screen and (min-width:1200px){
+
+    .content {
+      width: 80%;
+      margin: 0 auto;
+    }
+    .pu {
+      margin: 20px 0 0 0;
+      text-align: center;
+      /*border: none;*/
+      height: 200px;
+      padding-bottom: 10px;
+    }
+    .pu img {
+      display: block;
+      width: 114px;
+      height: 114px;
+      float: none;
+      margin: 0 auto 10px;
+    }
+    .pu small {
+      display: block;
+      margin-left: 0;
+    }
+  }
+
 </style>
