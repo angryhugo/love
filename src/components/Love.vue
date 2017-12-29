@@ -10,7 +10,7 @@
       <span class="iconfont icon-pause" @click="stopSwiper"></span>
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="dateDesc in dateArr" v-cloak>
-          <p class="desc">{{dateDesc.desc}}<small v-if="dateDesc.tip">{{dateDesc.tip}}</small></p>
+          <p class="desc"><small v-if="dateDesc.tip">{{dateDesc.tip}}</small>{{dateDesc.desc}}</p>
           <p class="date">{{dateDesc.date}}</p>
           <p class="distance">{{dateDesc.distance}}km</p>
           <img :src="getImgUrl(dateDesc.date)" class="swiper-lazy" width="95%">
@@ -25,7 +25,7 @@
         <img :src="getImgUrl(dateDesc.date)">
       </div>
     </div>
-    <audio id="my-audio" src="http://owntjivne.bkt.clouddn.com/little-luck.mp3" autoplay="autoplay"></audio>
+    <audio id="my-audio" src="http://owntjivne.bkt.clouddn.com/little-luck.mp3" autoplay="autoplay" loop="loop"></audio>
   </div>
 </template>
 
@@ -89,13 +89,11 @@
         });
       },
       startSwiper: function () {
-        console.log("start")
         swiper.startAutoplay();
         swiperStart.style.display="none";
         swiperPause.style.display="block";
       },
       stopSwiper: function () {
-        console.log("stop")
         swiper.stopAutoplay();
         swiperPause.style.display="none";
         swiperStart.style.display="block";
@@ -203,22 +201,23 @@
 
   .photo-list {
     padding-top: 20px;
-    margin: 0 0 60px -20px;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
+    margin-left: 200px;
   }
 
   .photo-item {
     position: relative;
-    width: 360px;
-    height: 360px;
+    width: 300px;
+    height: 300px;
     margin: 20px 0 0 20px;
+    border-radius: 5px;
+    overflow: hidden;
   }
 
   .photo-item img {
-    width: 360px;
-    height: 360px;
+    width: 300px;
+    height: 300px;
   }
 
   .photo-item p.date {
@@ -230,7 +229,7 @@
   }
 
   .photo-item p.desc {
-    background: rgba(0,0,0,.5);
+    background: rgba(0,0,0,0.6);
     color: #fff;
     position: absolute;
     bottom: 0;
@@ -238,13 +237,13 @@
     width: 95%;
     height: 32px;
     line-height: 32px;
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .photo-item p.desc small{
     color: #e38;
     font-size: 16px;
-    margin-left: 2%;
+    float: right;
   }
 
   /*动画会引起lazyloading bug*/
@@ -304,15 +303,16 @@
   }
 
   @media screen and (min-width:1200px){
-
     .content {
-      width: 80%;
+      width: 1200px;
       margin: 0 auto;
     }
     .pu {
-      margin: 20px 0 0 0;
+      position: fixed;
+      width: 200px;
+      margin: 40px 0 0 0;
       text-align: center;
-      /*border: none;*/
+      border: none;
       height: 200px;
       padding-bottom: 10px;
     }
@@ -322,6 +322,8 @@
       height: 114px;
       float: none;
       margin: 0 auto 10px;
+      border: 1px solid #b06e5d;
+      padding: 5px;
     }
     .pu small {
       display: block;
