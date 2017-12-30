@@ -10,7 +10,7 @@
       <span class="iconfont icon-pause" @click="stopSwiper"></span>
       <div class="swiper-wrapper">
         <div class="swiper-slide" v-for="dateDesc in dateArr" v-cloak>
-          <p class="desc"><small v-if="dateDesc.tip">{{dateDesc.tip}}</small>{{dateDesc.desc}}</p>
+          <p class="desc">{{dateDesc.desc}}<small v-if="dateDesc.tip">{{dateDesc.tip}}</small></p>
           <p class="date">{{dateDesc.date}}</p>
           <p class="distance">{{dateDesc.distance}}km</p>
           <img :src="getImgUrl(dateDesc.date)" class="swiper-lazy" width="95%">
