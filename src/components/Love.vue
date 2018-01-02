@@ -18,7 +18,7 @@
       </div>
     </div>
     <!--list-->
-    <div class="photo-list" v-show="!isSwiperShown">
+    <div class="photo-list clearfix" v-show="!isSwiperShown">
       <div class="photo-item" v-for="dateDesc in dateArr" v-cloak>
         <p class="desc">{{dateDesc.desc}}<small v-if="dateDesc.tip">{{dateDesc.tip}}</small></p>
         <p class="date">{{dateDesc.date}}</p>
@@ -200,17 +200,18 @@
   }
 
   .photo-list {
-    padding-top: 20px;
-    display: flex;
-    flex-wrap: wrap;
+    padding-top: 40px;
+    /*display: flex;*/
+    /*flex-wrap: wrap;*/
     margin-left: 200px;
   }
 
   .photo-item {
+    float: left;
     position: relative;
     width: 300px;
     height: 300px;
-    margin: 20px 0 0 20px;
+    margin: 0 0 20px 20px;
     border-radius: 5px;
     overflow: hidden;
   }
