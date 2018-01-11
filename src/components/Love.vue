@@ -19,10 +19,17 @@
     </div>
     <!--list-->
     <div class="photo-list clearfix" v-show="!isSwiperShown">
-      <div class="photo-item" v-for="dateDesc in dateArr" v-cloak>
+      <div class="photo-item" v-for="dateDesc in dateArr" @click="showPhoto(getImgUrl(dateDesc.date))" v-cloak>
         <p class="desc">{{dateDesc.desc}}<small v-if="dateDesc.tip">{{dateDesc.tip}}</small></p>
         <p class="date">{{dateDesc.date}}</p>
         <img :src="getImgUrl(dateDesc.date)">
+      </div>
+    </div>
+    <div class="photo-popup" v-show="photoShown">
+      <div class="mask"></div>
+      <div class="photo-content">
+        <span class="photo-close" @click="closePhoto"></span>
+        <img :src="photoUrl" width="600" height="600">
       </div>
     </div>
     <audio id="my-audio" src="http://owntjivne.bkt.clouddn.com/little-luck.mp3" autoplay="autoplay" loop="loop"></audio>
@@ -44,7 +51,9 @@
       return {
         days: parseInt((dateTime - startDayTime) / (24 * 60 * 60 * 1000))+"days",
         dateArr: dateArr,
-        isSwiperShown: (document.body.clientWidth<1200)
+        isSwiperShown: (document.body.clientWidth<1200),
+        photoShown: false,
+        photoUrl: ""
       }
     },
     mounted() {
@@ -100,6 +109,14 @@
       },
       playAudio: function() {
         document.getElementById("my-audio").play();
+      },
+      showPhoto: function (url) {
+        this.photoShown = true;
+        this.photoUrl = url;
+      },
+      closePhoto: function () {
+        this.photoShown = false;
+        this.photoUrl = "";
       }
     }
   }
@@ -214,6 +231,7 @@
     margin: 0 0 20px 20px;
     border-radius: 5px;
     overflow: hidden;
+    cursor: zoom-in;
   }
 
   .photo-item img {
@@ -245,6 +263,48 @@
     color: #e38;
     font-size: 16px;
     float: right;
+  }
+
+  .photo-popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+  }
+
+  .mask {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,.8);
+  }
+
+  .photo-content {
+    width: 600px;
+    height: 600px;
+    border: 2px solid #fff;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -301px;
+    margin-left: -301px;
+    background-color: #fff;
+  }
+
+  .photo-close {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    right: -20px;
+    top: -20px;
+    border-radius: 50%;
+    cursor: pointer;
+    background-color: #fff;
+    background-image: url(../assets/img/close.svg);
+    transform: scale(0.75);
   }
 
   /*动画会引起lazyloading bug*/
