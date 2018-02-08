@@ -116,7 +116,7 @@
       },
       closePhoto: function () {
         this.photoShown = false;
-        this.photoUrl = "";
+//        this.photoUrl = "";
       }
     }
   }
