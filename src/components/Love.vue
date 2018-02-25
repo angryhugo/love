@@ -32,7 +32,7 @@
         <img :src="photoUrl" width="600" height="600">
       </div>
     </div>
-    <audio id="my-audio" src="http://owntjivne.bkt.clouddn.com/little-luck.mp3" autoplay="autoplay" loop="loop"></audio>
+    <audio id="my-audio" src="http://owntjivne.bkt.clouddn.com/almost-lover.mp3" autoplay="autoplay" loop="loop"></audio>
   </div>
 </template>
 
