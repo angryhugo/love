@@ -2,7 +2,7 @@
   <div class="content" @touchstart.once="playAudio">
     <div class="pu">
       <img src="../assets/img/favicon.png">
-      我最亲爱的<small v-cloak>{{days}}</small>
+      一生中最爱<small v-cloak>{{days}}</small>
     </div>
     <!-- Swiper -->
     <div class="swiper-container" v-show="isSwiperShown">
@@ -44,12 +44,13 @@
   var qiniuBaseUrl = "http://owntjivne.bkt.clouddn.com/";
   var dateTime = new Date().getTime();
   var startDayTime = new Date("2017", "7", "28").getTime();
+  var endDayTime = new Date("2018", "1", "24").getTime();
 
   export default {
     name: 'Love',
     data() {
       return {
-        days: parseInt((dateTime - startDayTime) / (24 * 60 * 60 * 1000))+"days",
+        days: parseInt((endDayTime - startDayTime) / (24 * 60 * 60 * 1000))+" days",
         dateArr: dateArr,
         isSwiperShown: (document.body.clientWidth<1200),
         photoShown: false,
